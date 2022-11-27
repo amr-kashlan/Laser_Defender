@@ -5,7 +5,7 @@ using UnityEngine;
 public class PathFinder : MonoBehaviour
 {
     EnemySpawner enemySpawner;
-    [SerializeField] WaveConfigSO waveConfig;
+    WaveConfigSO waveConfig;
     List<Transform> waypoints;
     int waypointIndex = 1;
     void Awake()

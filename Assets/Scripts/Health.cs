@@ -10,11 +10,13 @@ public class Health : MonoBehaviour
     CanvasShake canvasShake;
     AudioPlayer audioPlayer;
     ScoreKeeper scoreKeeper;
+    GameManager gameManager;
 
     private void Awake()
     {
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
         audioPlayer = FindObjectOfType<AudioPlayer>();
+        gameManager = FindObjectOfType<GameManager>();
 
         canvasShake = Camera.main.GetComponent<CanvasShake>();
     }
@@ -61,6 +63,10 @@ public class Health : MonoBehaviour
             {
                 scoreKeeper.AddScore();
             }
+            else
+            {
+                gameManager.LoadGameOver();
+            }
             Destroy(gameObject);
         }
     }
@@ -72,4 +78,5 @@ public class Health : MonoBehaviour
             Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
         }
     }
+
 }

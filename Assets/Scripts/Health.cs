@@ -8,8 +8,14 @@ public class Health : MonoBehaviour
     public int health = 50;
     public bool applyCameraShake;
     CanvasShake canvasShake;
+    AudioPlayer audioPlayer;
+    ScoreKeeper scoreKeeper;
+
     private void Awake()
     {
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        audioPlayer = FindObjectOfType<AudioPlayer>();
+
         canvasShake = Camera.main.GetComponent<CanvasShake>();
     }
     // Start is called before the first frame update
@@ -23,6 +29,10 @@ public class Health : MonoBehaviour
     {
 
     }
+    public float GetHealth()
+    {
+        return health;
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         DamageDealer damageDealer = other.GetComponent<DamageDealer>();
@@ -32,6 +42,7 @@ public class Health : MonoBehaviour
             TakeDamage(damageDealer.GetDamage());
             PlayHitEffect();
             ShakeCamera();
+            audioPlayer.PlayHitClip();
         }
     }
     void ShakeCamera()
@@ -46,6 +57,10 @@ public class Health : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            if (applyCameraShake == false)
+            {
+                scoreKeeper.AddScore();
+            }
             Destroy(gameObject);
         }
     }
